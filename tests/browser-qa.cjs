@@ -214,6 +214,27 @@ const path = require("path");
   await page.locator("#workspace [data-action-view='cases']").click();
   await page.locator("[data-case-scope='all']").click();
   await page.waitForTimeout(3400);
+  check(
+    "desktop queue surfaces share one centered shell",
+    await page.evaluate(() => {
+      const selectors = [
+        ".topbar .brand",
+        "#cases .page-heading",
+        ".workspace-summary",
+        ".case-toolbar",
+        "#caseList",
+      ];
+      const rects = selectors.map((selector) =>
+        document.querySelector(selector).getBoundingClientRect(),
+      );
+      const lefts = rects.map((rect) => rect.left);
+      const rights = rects.slice(1).map((rect) => rect.right);
+      return (
+        Math.max(...lefts) - Math.min(...lefts) <= 1 &&
+        Math.max(...rights) - Math.min(...rights) <= 1
+      );
+    }),
+  );
   await page.screenshot({
     path: path.join(__dirname, "screenshots", "desktop.png"),
     fullPage: true,
@@ -227,6 +248,25 @@ const path = require("path");
       (await page
         .locator("[data-scope='all']")
         .evaluate((button) => button.classList.contains("active"))),
+  );
+  check(
+    "desktop review header and workbench share the application shell",
+    await page.evaluate(() => {
+      const header = document
+        .querySelector(".review-header-inner")
+        .getBoundingClientRect();
+      const workbench = document
+        .querySelector(".review-workbench")
+        .getBoundingClientRect();
+      const brand = document
+        .querySelector(".topbar .brand")
+        .getBoundingClientRect();
+      return (
+        Math.max(header.left, workbench.left, brand.left) -
+          Math.min(header.left, workbench.left, brand.left) <=
+          1 && Math.abs(header.right - workbench.right) <= 1
+      );
+    }),
   );
   await page.waitForTimeout(520);
   await page.screenshot({
@@ -251,6 +291,25 @@ const path = require("path");
   check(
     "mobile dashboard keeps its next-review action visible",
     await mobileDashboard.locator("#continueReview").isVisible(),
+  );
+  check(
+    "mobile dashboard surfaces use equal side gutters",
+    await mobileDashboard.evaluate(() => {
+      const selectors = [
+        "#cases .page-heading",
+        ".workspace-summary",
+        ".case-toolbar",
+        "#caseList",
+      ];
+      const rects = selectors.map((selector) =>
+        document.querySelector(selector).getBoundingClientRect(),
+      );
+      return rects.every(
+        (rect) =>
+          Math.abs(rect.left - rects[0].left) <= 1 &&
+          Math.abs(rect.right - rects[0].right) <= 1,
+      );
+    }),
   );
   await mobileDashboard.screenshot({
     path: path.join(__dirname, "screenshots", "mobile-dashboard.png"),
@@ -290,6 +349,21 @@ const path = require("path");
         document.documentElement.scrollWidth <=
         document.documentElement.clientWidth + 1,
     ),
+  );
+  check(
+    "mobile review header and evidence stack align to one gutter",
+    await mobile.evaluate(() => {
+      const header = document
+        .querySelector(".review-header-inner")
+        .getBoundingClientRect();
+      const workbench = document
+        .querySelector(".review-workbench")
+        .getBoundingClientRect();
+      return (
+        Math.abs(header.left - workbench.left) <= 1 &&
+        Math.abs(header.right - workbench.right) <= 1
+      );
+    }),
   );
   check(
     "mobile review controls remain operable",

@@ -22,6 +22,8 @@
   --warning: #9a6700;
   --warning-soft: #fff2cc;
   --radius: 10px;
+  --shell-max: 1240px;
+  --shell-gutter: 28px;
   --font: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
   --serif: "IBM Plex Serif", Georgia, serif;
 }
@@ -107,7 +109,8 @@ a {
   border-bottom: 1px solid var(--line);
   display: flex;
   align-items: center;
-  padding: 0 max(24px, calc((100vw - 1240px) / 2));
+  padding: 0
+    max(var(--shell-gutter), calc((100vw - var(--shell-max)) / 2));
   gap: 32px;
   position: sticky;
   top: 0;
@@ -250,7 +253,10 @@ a {
   display: block;
 }
 .page {
-  width: min(1240px, calc(100% - 56px));
+  width: min(
+    var(--shell-max),
+    calc(100% - var(--shell-gutter) - var(--shell-gutter))
+  );
   margin: 0 auto;
   padding: 48px 0 90px;
 }
@@ -677,10 +683,12 @@ a {
 .review-header {
   background: var(--surface);
   border-bottom: 1px solid var(--line);
-  padding: 8px 24px;
+  padding: 8px
+    max(var(--shell-gutter), calc((100vw - var(--shell-max)) / 2));
 }
 .review-header-inner {
-  width: min(1440px, 100%);
+  width: 100%;
+  max-width: var(--shell-max);
   margin: 0 auto;
   padding: 14px 0 10px;
 }
@@ -792,7 +800,10 @@ a {
   background: var(--primary);
 }
 .review-workbench {
-  width: min(1440px, calc(100% - 48px));
+  width: min(
+    var(--shell-max),
+    calc(100% - var(--shell-gutter) - var(--shell-gutter))
+  );
   margin: 16px auto 70px;
   display: grid;
   grid-template-columns: 230px minmax(0, 1fr) 310px;
@@ -1769,7 +1780,7 @@ a svg {
   }
   .review-workbench {
     display: block;
-    width: calc(100% - 28px);
+    width: calc(100% - var(--shell-gutter) - var(--shell-gutter));
   }
   .finding-rail {
     display: none;
@@ -1816,6 +1827,9 @@ a svg {
   }
 }
 @media (max-width: 680px) {
+  :root {
+    --shell-gutter: 14px;
+  }
   .topbar {
     height: auto;
     min-height: 60px;
@@ -1843,7 +1857,7 @@ a svg {
     padding: 0 12px;
   }
   .page {
-    width: calc(100% - 28px);
+    width: calc(100% - var(--shell-gutter) - var(--shell-gutter));
     padding: 32px 0 max(72px, env(safe-area-inset-bottom));
   }
   .button,

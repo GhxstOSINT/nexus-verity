@@ -53,8 +53,8 @@ npm run test:browser
 Release verification completed on 20 October 2026:
 
 - Engine: 8/8 passed
-- Browser workflow: 43/43 passed
-- Combined: 51/51 passed
+- Browser workflow: 47/47 passed
+- Combined: 55/55 passed
 
 ## Repository structure
 

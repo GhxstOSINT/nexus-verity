@@ -57,6 +57,7 @@ The blue accent is reserved for action and focus. Status colors do not decorate 
 
 ### Alignment and numeric hierarchy
 
+- The top navigation, queue pages, review header, and evidence workbench share one centered 1240px shell with 28px standard gutters and 14px phone gutters.
 - Page shells, headers, toolbars, and tables share explicit container edges; controls align to the same horizontal rhythm.
 - Quantitative summaries, confidence values, progress counts, dates, statuses, and evidence facts are centered within their columns and use tabular numerals.
 - Numbers receive the strongest weight inside analytical components; their labels are smaller, quieter, and consistently spaced.
