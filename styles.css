@@ -11,3 +11,4 @@ dialog{border:1px solid var(--line);border-radius:10px;padding:0;width:min(620px
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 .back-button{display:inline-flex;align-items:center;gap:5px}.back-button svg,.finding-controls button svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8}.finding-controls .icon-only{display:grid;place-items:center}.finding-controls .next-button{display:flex;align-items:center;gap:5px}
 .claim-facts dt,.status-chip,.table-result,.facet,th,.source-detail-grid span{font-size:11px}.table-wrap{border-top:0}dialog{border:0}
+.source-original{display:inline-flex;text-decoration:none;margin-top:16px}

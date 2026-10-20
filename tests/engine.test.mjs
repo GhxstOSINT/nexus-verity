@@ -34,6 +34,12 @@ test("labels closely aligned values as supported", () => {
   assert.equal(classifyPair(a, b).label, "supported");
 });
 
+test("uses a percentage change instead of the scope number in reduction claims", () => {
+  const claims = extractClaims("Our Scope 1 and 2 emissions decreased by 30% from the 2020 base year.", { id: "report" });
+  assert.equal(claims[0].displayValue, "30%");
+  assert.equal(claims[0].value, 30);
+});
+
 test("end-to-end analysis preserves evidence and emits retrieval gaps", () => {
   const result = analyzeDocuments(
     { ...base, text: "FY2025 Scope 1 and 2 emissions were 84,200 tCO2e. FY2025 waste generated was 8,000 tonnes." },

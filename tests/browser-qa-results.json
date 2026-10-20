@@ -1,7 +1,7 @@
 {
-  "runAt": "2026-10-20T05:22:27.839Z",
-  "passed": 16,
-  "total": 16,
+  "runAt": "2026-10-20T05:29:07.314Z",
+  "passed": 17,
+  "total": 17,
   "results": [
     {
       "name": "cases page loads",
@@ -9,7 +9,7 @@
       "detail": ""
     },
     {
-      "name": "portfolio contains four seeded cases",
+      "name": "portfolio contains the public example and four demo cases",
       "pass": true,
       "detail": ""
     },
@@ -24,7 +24,7 @@
       "detail": ""
     },
     {
-      "name": "case opens in evidence workspace",
+      "name": "public Microsoft case opens in evidence workspace",
       "pass": true,
       "detail": ""
     },
@@ -34,12 +34,17 @@
       "detail": ""
     },
     {
-      "name": "contradiction state is explicit",
+      "name": "matching public disclosures are classified as supported",
       "pass": true,
       "detail": ""
     },
     {
       "name": "source provenance opens",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "public source links to the original",
       "pass": true,
       "detail": ""
     },

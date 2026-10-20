@@ -58,7 +58,8 @@ export function extractClaims(text, document = {}) {
     const matches = [...sentence.matchAll(new RegExp(VALUE_RE.source, "gi"))];
     const year = sentence.match(YEAR_RE)?.[1] || document.year || "unspecified";
     const meaningful = matches.filter(m => !YEAR_RE.test(m[0]) && (m[3] || m[2] || Number(m[1].replace(/,/g, "")) < 1900));
-    const selected = meaningful.find(m => m[3] && metric.units.some(u => normalizeUnit(m[3], m[2]).includes(u))) || meaningful[0];
+    const changePercentage = /decreas|reduc|increas|grew|fell|declin/i.test(sentence) ? meaningful.find(m => m[3] === "%") : null;
+    const selected = meaningful.find(m => m[3] && metric.units.some(u => normalizeUnit(m[3], m[2]).includes(u))) || changePercentage || meaningful[0];
     const status = /achieved|reached|met|completed/i.test(sentence) ? "achieved" : /missed|delayed|postponed|not\s+met/i.test(sentence) ? "missed" : /target|aim|commit|pledge/i.test(sentence) ? "planned" : "reported";
     claims.push({
       id: `${document.id || "doc"}-${index + 1}`,
