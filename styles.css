@@ -27,6 +27,7 @@
 }
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 132px;
 }
 body {
   margin: 0;
@@ -535,7 +536,12 @@ a {
 .review-header {
   background: var(--surface);
   border-bottom: 1px solid var(--line);
-  padding: 22px max(16px, calc((100vw - 1440px) / 2)) 18px;
+  padding: 8px 24px;
+}
+.review-header-inner {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+  padding: 14px 0 10px;
 }
 .back-button {
   border: 0;
@@ -578,6 +584,9 @@ a {
   list-style: none;
 }
 .export-menu > summary::-webkit-details-marker {
+  display: none;
+}
+.export-short {
   display: none;
 }
 .export-menu > div {
@@ -642,7 +651,7 @@ a {
   background: var(--primary);
 }
 .review-workbench {
-  width: min(1440px, calc(100% - 32px));
+  width: min(1440px, calc(100% - 48px));
   margin: 16px auto 70px;
   display: grid;
   grid-template-columns: 230px minmax(0, 1fr) 310px;
@@ -1314,6 +1323,8 @@ dialog {
   border-radius: 10px;
   padding: 0;
   width: min(640px, calc(100vw - 28px));
+  max-height: calc(100dvh - 28px);
+  overflow: auto;
   box-shadow: 0 24px 60px rgba(13, 20, 28, 0.25);
 }
 dialog::backdrop {
@@ -1509,6 +1520,11 @@ body.rail-collapsed #collapseRail svg {
   .comparison-main {
     display: grid;
   }
+  .finding-toolbar {
+    position: sticky;
+    top: 74px;
+    z-index: 24;
+  }
   .finding-panel {
     margin-top: 12px;
     position: static;
@@ -1543,7 +1559,9 @@ body.rail-collapsed #collapseRail svg {
   .topbar {
     height: auto;
     min-height: 60px;
-    padding: 10px 14px;
+    padding: calc(10px + env(safe-area-inset-top))
+      max(14px, env(safe-area-inset-right)) 10px
+      max(14px, env(safe-area-inset-left));
     gap: 8px;
     flex-wrap: wrap;
   }
@@ -1556,15 +1574,30 @@ body.rail-collapsed #collapseRail svg {
   .topbar nav {
     order: 3;
     width: 100%;
-    height: 40px;
+    height: 44px;
   }
   .nav-button {
-    height: 40px;
+    height: 44px;
+    flex: 1;
+    justify-content: center;
     padding: 0 12px;
   }
   .page {
     width: calc(100% - 28px);
-    padding: 38px 0 60px;
+    padding: 32px 0 max(72px, env(safe-area-inset-bottom));
+  }
+  .button,
+  .icon-button,
+  .back-button,
+  .source-link,
+  .copy-link,
+  .file-picker,
+  .findings-drawer summary,
+  .document-row {
+    min-height: 44px;
+  }
+  .review-actions button {
+    min-height: 48px;
   }
   .page-heading {
     align-items: flex-start;
@@ -1634,7 +1667,10 @@ body.rail-collapsed #collapseRail svg {
     grid-column: 2;
   }
   .review-header {
-    padding: 18px 14px;
+    padding: 8px 14px;
+  }
+  .review-header-inner {
+    padding: 8px env(safe-area-inset-right) 8px env(safe-area-inset-left);
   }
   .review-title-row {
     align-items: flex-start;
@@ -1651,7 +1687,11 @@ body.rail-collapsed #collapseRail svg {
     width: 100%;
   }
   .export-menu > div {
-    right: 0;
+    position: fixed;
+    inset: auto max(14px, env(safe-area-inset-right))
+      max(14px, env(safe-area-inset-bottom))
+      max(14px, env(safe-area-inset-left));
+    width: auto;
   }
   .review-status {
     grid-template-columns: 1fr minmax(120px, 2fr);
@@ -1662,6 +1702,8 @@ body.rail-collapsed #collapseRail svg {
   .finding-toolbar {
     align-items: stretch;
     flex-direction: column;
+    top: calc(108px + env(safe-area-inset-top));
+    padding: 10px;
   }
   .finding-controls {
     justify-content: space-between;
@@ -1673,10 +1715,17 @@ body.rail-collapsed #collapseRail svg {
     width: 100%;
   }
   .evidence-sheet {
-    padding: 20px;
+    padding: 18px;
   }
   .evidence-sheet blockquote {
     font-size: 19px;
+  }
+  .source-actions {
+    gap: 12px;
+  }
+  .source-link,
+  .copy-link {
+    flex: 1;
   }
   .facet-list {
     grid-template-columns: 1fr 1fr;
@@ -1703,6 +1752,9 @@ body.rail-collapsed #collapseRail svg {
   .document-input {
     padding: 18px;
   }
+  .document-input textarea {
+    min-height: 180px;
+  }
   .import-submit {
     align-items: stretch;
     flex-direction: column;
@@ -1710,17 +1762,24 @@ body.rail-collapsed #collapseRail svg {
   .import-submit .button {
     width: 100%;
   }
+  .file-picker,
+  .add-source {
+    width: 100%;
+    justify-content: center;
+  }
   .source-detail-grid {
     grid-template-columns: 1fr;
   }
   .toast-region {
     left: 14px;
     right: 14px;
+    bottom: max(14px, env(safe-area-inset-bottom));
   }
   .demo-guide {
-    left: 14px;
-    bottom: 14px;
-    width: calc(100vw - 28px);
+    left: max(14px, env(safe-area-inset-left));
+    right: max(14px, env(safe-area-inset-right));
+    bottom: max(14px, env(safe-area-inset-bottom));
+    width: auto;
   }
   .toast {
     min-width: 0;
@@ -1745,22 +1804,71 @@ body.rail-collapsed #collapseRail svg {
   .segmented button {
     flex: 1;
     padding-inline: 6px;
+    min-height: 44px;
+  }
+  .finding-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px auto;
+    gap: 8px;
   }
   .finding-controls label {
-    display: none;
+    display: flex;
+    min-width: 0;
+    gap: 0;
+    font-size: 0;
   }
-  .claim-facts {
-    grid-template-columns: 1fr;
-  }
-  .claim-facts div:nth-child(even) {
-    padding-left: 0;
-    border-left: 0;
+  .finding-controls select {
+    min-width: 0;
+    font-size: 14px;
   }
   .facet-list {
     grid-template-columns: 1fr;
   }
   .findings-drawer summary small {
     display: none;
+  }
+}
+@media (max-width: 350px) {
+  .page-heading h1,
+  .review-title-row h1 {
+    font-size: 26px;
+  }
+  .workspace-summary strong {
+    font-size: 24px;
+  }
+  .workspace-summary span {
+    font-size: 9px;
+  }
+  .topbar > .button-primary {
+    font-size: 12px;
+  }
+  .export-full {
+    display: none;
+  }
+  .export-short {
+    display: inline;
+  }
+  .evidence-sheet blockquote {
+    font-size: 18px;
+  }
+}
+@media (pointer: coarse) {
+  .button,
+  .icon-button,
+  .back-button,
+  .source-link,
+  .copy-link,
+  .file-picker,
+  .review-actions button,
+  .findings-drawer summary,
+  .document-row {
+    min-height: 44px;
+  }
+  .case-row {
+    min-height: 72px;
+  }
+  .review-actions button {
+    min-height: 48px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

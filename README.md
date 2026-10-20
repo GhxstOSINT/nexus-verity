@@ -22,7 +22,7 @@ Nexus Verity compares sustainability claims with regulatory filings and other pu
 - Keyboard shortcuts for finding navigation, decisions, and saving
 - Copyable evidence excerpts with citations and original-source links
 - Visible focus, reduced-motion support, and semantic status labels
-- Responsive evidence workflow with no horizontal overflow at 390 px
+- Responsive evidence workflow with no horizontal overflow from 320 px phones through desktop
 
 ## Run locally
 
@@ -52,8 +52,8 @@ npm run test:browser
 Release verification completed on 20 October 2026:
 
 - Engine: 8/8 passed
-- Browser workflow: 31/31 passed
-- Combined: 39/39 passed
+- Browser workflow: 39/39 passed
+- Combined: 47/47 passed
 
 ## Repository structure
 

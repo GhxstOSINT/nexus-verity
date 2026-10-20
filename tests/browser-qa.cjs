@@ -257,8 +257,87 @@ const path = require("path");
     "mobile review controls remain operable",
     await mobile.locator("button[data-decision='confirmed']").isVisible(),
   );
+  check(
+    "mobile keeps result filtering available",
+    await mobile.locator("#statusFilter").isVisible(),
+  );
+  check(
+    "mobile touch targets meet the 44 pixel floor",
+    await mobile.evaluate(() =>
+      [
+        ...document.querySelectorAll(".nav-button, .review-actions button"),
+      ].every((element) => element.getBoundingClientRect().height >= 44),
+    ),
+  );
+  check(
+    "mobile evidence facts retain a compact two-column grid",
+    await mobile
+      .locator("#claimFacts")
+      .evaluate(
+        (element) =>
+          getComputedStyle(element).gridTemplateColumns.split(" ").length === 2,
+      ),
+  );
   await mobile.screenshot({
     path: path.join(__dirname, "screenshots", "mobile.png"),
+    fullPage: true,
+  });
+  const compact = await browser.newPage({
+    viewport: { width: 320, height: 720 },
+    deviceScaleFactor: 1,
+  });
+  await compact.goto("http://127.0.0.1:4174#workspace", {
+    waitUntil: "networkidle",
+  });
+  await compact.waitForTimeout(150);
+  check(
+    "compact 320 pixel layout has no horizontal overflow",
+    await compact.evaluate(
+      () =>
+        document.documentElement.scrollWidth <=
+        document.documentElement.clientWidth + 1,
+    ),
+  );
+  check(
+    "compact layout preserves evidence and decisions",
+    (await compact.locator("#claimText").isVisible()) &&
+      (await compact.locator("#saveReview").isVisible()),
+  );
+  check(
+    "compact layout uses the shorter export label",
+    await compact.locator(".export-short").isVisible(),
+  );
+  await compact.screenshot({
+    path: path.join(__dirname, "screenshots", "compact-mobile.png"),
+    fullPage: true,
+  });
+  const tablet = await browser.newPage({
+    viewport: { width: 768, height: 1024 },
+    deviceScaleFactor: 1,
+  });
+  await tablet.goto("http://127.0.0.1:4174#workspace", {
+    waitUntil: "networkidle",
+  });
+  await tablet.waitForTimeout(150);
+  check(
+    "tablet layout has no horizontal overflow",
+    await tablet.evaluate(
+      () =>
+        document.documentElement.scrollWidth <=
+        document.documentElement.clientWidth + 1,
+    ),
+  );
+  check(
+    "tablet uses a readable single-column evidence sequence",
+    await tablet
+      .locator(".evidence-stage")
+      .evaluate(
+        (element) =>
+          getComputedStyle(element).gridTemplateColumns.split(" ").length === 1,
+      ),
+  );
+  await tablet.screenshot({
+    path: path.join(__dirname, "screenshots", "tablet.png"),
     fullPage: true,
   });
   await browser.close();

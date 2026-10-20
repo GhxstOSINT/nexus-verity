@@ -102,9 +102,12 @@ The import flow places the reported disclosure beside an expandable stack of com
 
 - Above 1180px: three-column review station.
 - 841–1180px: finding rail plus comparison surface; the decision inspector moves below the evidence.
-- 840px and below: the rail becomes an expandable findings table, evidence sheets stack, and decision controls follow the evidence.
-- 680px and below: the header wraps into two rows, tables simplify to essential fields, and forms become one column.
-- The 390px reference viewport must have no horizontal overflow and must retain source details, decisions, notes, and saving.
+- 840px and below: the rail becomes an expandable findings table, evidence sheets stack, the finding toolbar stays available while reading, and decision controls follow the evidence.
+- 680px and below: the header wraps into two touch-friendly rows, controls meet a 44px target floor, tables simplify to essential fields, forms become one column, and export choices become a bottom sheet.
+- 430px and below: evidence facts remain a compact two-column comparison, filtering remains available, and controls reflow into a three-part action row.
+- 350px and below: the export label shortens without removing functionality and typography tightens only where needed.
+- Safe-area insets protect navigation, overlays, and toasts on notched devices.
+- The supported reference widths are 320px compact phone, 390px phone, 768px tablet, and desktop; none may introduce horizontal overflow or hide core review actions.
 
 ## Accessibility
 

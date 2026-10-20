@@ -1,7 +1,7 @@
 {
-  "runAt": "2026-10-20T08:56:06.968Z",
-  "passed": 31,
-  "total": 31,
+  "runAt": "2026-10-20T09:20:17.244Z",
+  "passed": 39,
+  "total": 39,
   "results": [
     {
       "name": "cases page loads",
@@ -141,7 +141,7 @@
     {
       "name": "direct mobile route starts at the workspace header",
       "pass": true,
-      "detail": "{\"scrollY\":0,\"workspaceTop\":108,\"headerTop\":108}"
+      "detail": "{\"scrollY\":0,\"workspaceTop\":117,\"headerTop\":117}"
     },
     {
       "name": "mobile evidence remains visible",
@@ -155,6 +155,46 @@
     },
     {
       "name": "mobile review controls remain operable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile keeps result filtering available",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile touch targets meet the 44 pixel floor",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile evidence facts retain a compact two-column grid",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "compact 320 pixel layout has no horizontal overflow",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "compact layout preserves evidence and decisions",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "compact layout uses the shorter export label",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "tablet layout has no horizontal overflow",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "tablet uses a readable single-column evidence sequence",
       "pass": true,
       "detail": ""
     }
