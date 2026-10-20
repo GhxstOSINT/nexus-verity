@@ -1,7 +1,7 @@
 {
-  "runAt": "2026-10-20T05:29:07.314Z",
-  "passed": 17,
-  "total": 17,
+  "runAt": "2026-10-20T08:04:45.277Z",
+  "passed": 23,
+  "total": 23,
   "results": [
     {
       "name": "cases page loads",
@@ -10,6 +10,11 @@
     },
     {
       "name": "portfolio contains the public example and four demo cases",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "portfolio summary reports all eleven findings",
       "pass": true,
       "detail": ""
     },
@@ -39,6 +44,16 @@
       "detail": ""
     },
     {
+      "name": "desktop finding rail exposes the case worklist",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "finding rail can be collapsed",
+      "pass": true,
+      "detail": ""
+    },
+    {
       "name": "source provenance opens",
       "pass": true,
       "detail": ""
@@ -49,12 +64,22 @@
       "detail": ""
     },
     {
+      "name": "keyboard shortcut selects a review decision",
+      "pass": true,
+      "detail": ""
+    },
+    {
       "name": "review decision persists locally",
       "pass": true,
       "detail": ""
     },
     {
       "name": "reviewed filter works",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "completed scope isolates fully reviewed cases",
       "pass": true,
       "detail": ""
     },
@@ -72,6 +97,11 @@
       "name": "incomplete import is blocked with inline error",
       "pass": true,
       "detail": ""
+    },
+    {
+      "name": "direct mobile route starts at the workspace header",
+      "pass": true,
+      "detail": "{\"scrollY\":0,\"workspaceTop\":107.296875,\"headerTop\":107.296875}"
     },
     {
       "name": "mobile evidence remains visible",

@@ -3,11 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101722">
+  <meta name="theme-color" content="#111318">
   <meta name="description" content="Compare ESG disclosures and review potential contradictions with source evidence.">
   <title>Nexus Verity — ESG evidence review</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -15,73 +18,98 @@
   <header class="topbar">
     <a class="brand" href="#cases" data-link-view="cases" aria-label="Nexus Verity cases">
       <svg aria-hidden="true" viewBox="0 0 44 44"><path d="M7 8h13v13H7zM24 23h13v13H24z"/><path d="M19 14h9v16h-9z" class="brand-link"/></svg>
-      <span><strong>Nexus Verity</strong><small>ESG evidence review</small></span>
+      <span><strong>Nexus Verity</strong><small>Evidence review</small></span>
     </a>
     <nav aria-label="Primary navigation">
-      <button class="nav-button active" data-view="cases">Cases</button>
-      <button class="nav-button" data-view="documents">Documents</button>
+      <button class="nav-button active" data-view="cases"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5h16v14H4zM4 9h16"/></svg>Cases</button>
+      <button class="nav-button" data-view="documents"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6zM14 3v4h4M9 12h6M9 16h6"/></svg>Documents</button>
     </nav>
-    <button class="button button-primary" data-action-view="import">New comparison</button>
+    <span class="local-status"><i></i> Local workspace</span>
+    <button class="button button-primary" data-action-view="import"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New comparison</button>
   </header>
 
   <main id="main">
     <section class="view active page" id="cases" aria-labelledby="cases-title">
       <div class="page-heading">
-        <div><h1 id="cases-title">Cases</h1><p>Compare disclosures, resolve findings, and export the evidence.</p></div>
-        <button class="button button-primary" data-action-view="import">New comparison</button>
+        <div><h1 id="cases-title">Review queue</h1><p>Investigate claims, compare their evidence, and record a defensible decision.</p></div>
+        <button class="button button-primary" data-action-view="import"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New comparison</button>
+      </div>
+      <div class="workspace-summary" aria-label="Workspace summary">
+        <div><strong id="openCasesCount">0</strong><span>Active cases</span></div>
+        <div><strong id="totalFindingsCount">0</strong><span>Total findings</span></div>
+        <div><strong id="pendingFindingsCount">0</strong><span>Awaiting review</span></div>
+        <p>Your work stays in this browser unless you export it.</p>
       </div>
       <div class="case-toolbar">
-        <label class="search-field"><span class="sr-only">Search cases</span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="caseSearch" type="search" placeholder="Search cases"></label>
-        <label>Status<select id="caseStatus"><option value="all">All statuses</option><option value="In review">In review</option><option value="Queued">Queued</option></select></label>
+        <div class="segmented" role="group" aria-label="Case scope"><button class="active" data-case-scope="all">All</button><button data-case-scope="needs-review">Needs review</button><button data-case-scope="complete">Complete</button></div>
+        <label class="search-field"><span class="sr-only">Search cases</span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="caseSearch" type="search" placeholder="Search company, case, or topic"></label>
+        <label class="select-field"><span>Status</span><select id="caseStatus"><option value="all">All statuses</option><option value="In review">In review</option><option value="Queued">Queued</option></select></label>
       </div>
       <div class="case-table" id="caseList"></div>
-      <p class="demo-note"><strong>Source note:</strong> the Microsoft case uses linked public documents. The remaining cases are synthetic demonstrations.</p>
+      <p class="demo-note"><strong>Source note:</strong> Microsoft uses linked public documents. Other companies are clearly marked synthetic demonstrations.</p>
     </section>
 
     <section class="view" id="workspace" aria-labelledby="workspace-title">
       <div class="review-header">
-        <button class="back-button" data-action-view="cases"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg> Cases</button>
+        <button class="back-button" data-action-view="cases"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>Review queue</button>
         <div class="review-title-row">
-          <div><h1 id="workspace-title"><span id="caseTitle">Atlas Components</span></h1><p id="caseMeta"></p></div>
-          <div class="review-header-actions"><label>Case<select id="caseSwitcher"></select></label><button class="button" id="exportButton">Export</button></div>
+          <div><h1 id="workspace-title"><span id="caseTitle">Microsoft</span></h1><p id="caseMeta"></p></div>
+          <div class="review-header-actions"><label>Case<select id="caseSwitcher"></select></label><button class="button" id="exportButton"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14"/></svg>Export</button></div>
         </div>
-        <div class="review-status"><span id="progressLabel">Finding 1 of 4</span><div class="progress"><span id="reviewProgressBar"></span></div><strong id="reviewPercent">0% reviewed</strong></div>
+        <div class="review-status"><span id="progressLabel">Finding 1 of 1</span><div class="progress"><span id="reviewProgressBar"></span></div><strong id="reviewPercent">0% reviewed</strong></div>
       </div>
 
-      <div class="finding-toolbar">
-        <div class="segmented" role="group" aria-label="Finding scope"><button class="active" data-scope="all">All</button><button data-scope="pending">Pending</button><button data-scope="reviewed">Reviewed</button></div>
-        <div class="finding-controls"><label>Result<select id="statusFilter"><option value="all">All results</option><option value="potential contradiction">Potential contradiction</option><option value="supported">Supported</option><option value="non-comparable">Non-comparable</option><option value="uncertain">Uncertain</option><option value="no relevant evidence">No relevant evidence</option></select></label><button class="button icon-only" id="previousFinding" aria-label="Previous finding"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button class="button next-button" id="nextFinding">Next <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button></div>
-      </div>
+      <div class="review-workbench">
+        <aside class="finding-rail" aria-label="Case findings">
+          <div class="rail-title"><div><strong>Findings</strong><span id="railCount"></span></div><button class="icon-button" id="collapseRail" aria-label="Collapse findings"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button></div>
+          <div class="finding-list" id="findingRail"></div>
+          <div class="shortcut-help"><strong>Keyboard</strong><span><kbd>J</kbd><kbd>K</kbd> navigate</span><span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> decide</span><span><kbd>Ctrl</kbd><kbd>S</kbd> save</span></div>
+        </aside>
 
-      <div class="evidence-stage" aria-live="polite">
-        <article class="evidence-sheet" aria-labelledby="claim-source-title"><div class="sheet-meta"><span id="claimType"></span><span id="claimPage"></span></div><h2 id="claim-source-title">Reported claim</h2><p class="document-title" id="claimDocument"></p><blockquote id="claimText"></blockquote><dl class="claim-facts" id="claimFacts"></dl><button class="source-link" data-source-side="claim">Source details</button></article>
-        <section class="finding-panel" aria-labelledby="finding-title"><span class="status-chip" id="findingStatus"></span><h2 id="finding-title"></h2><p id="findingExplanation"></p><div class="confidence"><span>Evidence confidence</span><strong id="findingConfidence"></strong></div><div class="facet-list" id="facetList"></div><fieldset class="review-actions"><legend>Your decision</legend><button data-decision="confirmed">Confirm</button><button data-decision="revised">Revise</button><button data-decision="non-comparable">Not comparable</button></fieldset><label class="note-label" for="reviewNote">Note <span>optional</span></label><textarea id="reviewNote" rows="3" maxlength="500" placeholder="Why did you make this decision?"></textarea><div class="save-row"><small><span id="noteCount">0</span>/500</small><button class="button button-dark" id="saveReview">Save decision</button></div><span class="save-state" id="saveState" role="status"></span></section>
-        <article class="evidence-sheet" aria-labelledby="evidence-source-title"><div class="sheet-meta"><span id="evidenceType"></span><span id="evidencePage"></span></div><h2 id="evidence-source-title">Comparison evidence</h2><p class="document-title" id="evidenceDocument"></p><blockquote id="evidenceText"></blockquote><dl class="claim-facts" id="evidenceFacts"></dl><button class="source-link" data-source-side="evidence">Source details</button></article>
-      </div>
+        <section class="comparison-main" aria-label="Evidence comparison">
+          <div class="finding-toolbar">
+            <div class="segmented" role="group" aria-label="Finding scope"><button class="active" data-scope="all">All</button><button data-scope="pending">Pending</button><button data-scope="reviewed">Reviewed</button></div>
+            <div class="finding-controls"><label>Result<select id="statusFilter"><option value="all">All results</option><option value="potential contradiction">Potential contradiction</option><option value="supported">Supported</option><option value="non-comparable">Non-comparable</option><option value="uncertain">Uncertain</option><option value="no relevant evidence">No relevant evidence</option></select></label><button class="button icon-only" id="previousFinding" aria-label="Previous finding"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button class="button next-button" id="nextFinding">Next<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button></div>
+          </div>
+          <div class="evidence-stage" aria-live="polite">
+            <article class="evidence-sheet" aria-labelledby="claim-source-title"><div class="sheet-meta"><span id="claimType"></span><span id="claimPage"></span></div><h2 id="claim-source-title">Reported claim</h2><p class="document-title" id="claimDocument"></p><blockquote id="claimText"></blockquote><dl class="claim-facts" id="claimFacts"></dl><div class="source-actions"><button class="source-link" data-source-side="claim">Source details</button><button class="copy-link" data-copy-side="claim"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 8h11v11H8zM5 16H4V5h11v1"/></svg>Copy excerpt</button></div></article>
+            <article class="evidence-sheet" aria-labelledby="evidence-source-title"><div class="sheet-meta"><span id="evidenceType"></span><span id="evidencePage"></span></div><h2 id="evidence-source-title">Comparison evidence</h2><p class="document-title" id="evidenceDocument"></p><blockquote id="evidenceText"></blockquote><dl class="claim-facts" id="evidenceFacts"></dl><div class="source-actions"><button class="source-link" data-source-side="evidence">Source details</button><button class="copy-link" data-copy-side="evidence"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 8h11v11H8zM5 16H4V5h11v1"/></svg>Copy excerpt</button></div></article>
+          </div>
+          <details class="findings-drawer"><summary><span>All findings</span><small>Open the full case list</small></summary><div class="table-wrap"><table><thead><tr><th>ID</th><th>Metric</th><th>Result</th><th>Confidence</th><th>Review</th></tr></thead><tbody id="findingsTable"></tbody></table></div></details>
+        </section>
 
-      <details class="findings-drawer"><summary><span>All findings</span><small>Open the full case list</small></summary><div class="table-wrap"><table><thead><tr><th>ID</th><th>Metric</th><th>Result</th><th>Confidence</th><th>Review</th></tr></thead><tbody id="findingsTable"></tbody></table></div></details>
+        <aside class="finding-panel" aria-labelledby="finding-title">
+          <div class="finding-state"><span class="status-chip" id="findingStatus"></span><span class="confidence"><span>Confidence</span><strong id="findingConfidence"></strong></span></div>
+          <h2 id="finding-title"></h2><p id="findingExplanation"></p>
+          <div class="facet-list" id="facetList"></div>
+          <fieldset class="review-actions"><legend>Your decision</legend><button data-decision="confirmed"><span>1</span>Confirm finding</button><button data-decision="revised"><span>2</span>Revise finding</button><button data-decision="non-comparable"><span>3</span>Not comparable</button></fieldset>
+          <label class="note-label" for="reviewNote">Reviewer note <span>optional</span></label>
+          <textarea id="reviewNote" rows="5" maxlength="500" placeholder="Record why you made this decision"></textarea>
+          <div class="save-row"><small><span id="noteCount">0</span>/500</small><button class="button button-primary" id="saveReview">Save decision</button></div><span class="save-state" id="saveState" role="status"></span>
+        </aside>
+      </div>
     </section>
 
     <section class="view page" id="documents" aria-labelledby="documents-title">
-      <div class="page-heading"><div><h1 id="documents-title">Documents</h1><p>Source files used across your comparison cases.</p></div><button class="button button-primary" data-action-view="import">Add documents</button></div>
-      <div class="case-toolbar"><label class="search-field"><span class="sr-only">Search documents</span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="documentSearch" type="search" placeholder="Search documents"></label><label>Type<select id="documentType"><option value="all">All types</option><option value="Sustainability report">Sustainability report</option><option value="Regulatory filing">Regulatory filing</option><option value="Assurance statement">Assurance statement</option><option value="Company statement">Company statement</option></select></label></div><div class="document-table" id="documentLibrary"></div>
+      <div class="page-heading"><div><h1 id="documents-title">Source library</h1><p>Every document currently used by a comparison case.</p></div><button class="button button-primary" data-action-view="import"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add documents</button></div>
+      <div class="case-toolbar document-toolbar"><label class="search-field"><span class="sr-only">Search documents</span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="documentSearch" type="search" placeholder="Search title, ID, or filename"></label><label class="select-field"><span>Type</span><select id="documentType"><option value="all">All types</option><option value="Sustainability report">Sustainability report</option><option value="Regulatory filing">Regulatory filing</option><option value="Assurance statement">Assurance statement</option><option value="Company statement">Company statement</option></select></label></div><div class="document-table" id="documentLibrary"></div>
     </section>
 
     <section class="view page import-page" id="import" aria-labelledby="import-title">
-      <button class="back-button" data-action-view="cases"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg> Cases</button>
-      <div class="page-heading"><div><h1 id="import-title">New comparison</h1><p>Add a sustainability disclosure and a filing or assurance document.</p></div><span class="privacy-mark"><i></i> Processed in this browser</span></div>
+      <button class="back-button" data-action-view="cases"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>Review queue</button>
+      <div class="page-heading"><div><h1 id="import-title">New comparison</h1><p>Add one claim document and one independent comparison source.</p></div><span class="privacy-mark"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 10V8a5 5 0 0 1 10 0v2M5 10h14v11H5z"/></svg>Processed in this browser</span></div>
       <form id="importForm" novalidate>
         <div class="import-grid">
-          <section class="document-input"><div class="input-heading"><span>A</span><div><h2>Reported disclosure</h2><p>Sustainability report or company statement</p></div></div><label>Document title<input id="primaryTitle" value="Uploaded sustainability report" required></label><label>Document text<textarea id="primaryText" rows="12" placeholder="Paste document text or choose a text-based file" required></textarea></label><label class="file-picker">Choose TXT or PDF<input type="file" id="primaryFile" accept=".txt,.pdf,text/plain,application/pdf"></label><span class="file-state" id="primaryFileState">Maximum 25 MB</span></section>
-          <section class="document-input"><div class="input-heading"><span>B</span><div><h2>Comparison evidence</h2><p>Regulatory filing or assurance statement</p></div></div><label>Document title<input id="evidenceTitle" value="Uploaded regulatory filing" required></label><label>Document text<textarea id="evidenceInputText" rows="12" placeholder="Paste document text or choose a text-based file" required></textarea></label><label class="file-picker">Choose TXT or PDF<input type="file" id="evidenceFile" accept=".txt,.pdf,text/plain,application/pdf"></label><span class="file-state" id="evidenceFileState">Maximum 25 MB</span></section>
+          <section class="document-input"><div class="input-heading"><span>A</span><div><h2>Reported disclosure</h2><p>Sustainability report or company statement</p></div></div><label>Document title<input id="primaryTitle" value="Uploaded sustainability report" required></label><label>Document text<textarea id="primaryText" rows="12" placeholder="Paste document text or choose a text-based file" required></textarea></label><label class="file-picker"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4M5 16v4h14v-4"/></svg>Choose TXT or PDF<input type="file" id="primaryFile" accept=".txt,.pdf,text/plain,application/pdf"></label><span class="file-state" id="primaryFileState">Maximum 25 MB</span></section>
+          <section class="document-input"><div class="input-heading"><span>B</span><div><h2>Comparison evidence</h2><p>Regulatory filing or assurance statement</p></div></div><label>Document title<input id="evidenceTitle" value="Uploaded regulatory filing" required></label><label>Document text<textarea id="evidenceInputText" rows="12" placeholder="Paste document text or choose a text-based file" required></textarea></label><label class="file-picker"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4M5 16v4h14v-4"/></svg>Choose TXT or PDF<input type="file" id="evidenceFile" accept=".txt,.pdf,text/plain,application/pdf"></label><span class="file-state" id="evidenceFileState">Maximum 25 MB</span></section>
         </div>
         <div class="validation-message" id="importValidation" role="alert" hidden></div>
-        <div class="import-submit"><p>The product compares metric, period, scope, unit, boundary, and certainty before showing a potential conflict.</p><button class="button button-primary" type="submit" id="analyzeButton">Compare documents</button></div>
+        <div class="import-submit"><p>Before flagging a conflict, Nexus Verity checks metric, period, scope, unit, boundary, and certainty.</p><button class="button button-primary" type="submit" id="analyzeButton">Compare documents<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button></div>
       </form>
     </section>
   </main>
 
-  <dialog class="source-dialog" id="sourceDialog" aria-labelledby="sourceDialogTitle"><form method="dialog"><div class="dialog-heading"><h2 id="sourceDialogTitle">Source details</h2><button value="cancel" class="icon-button" aria-label="Close source details"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div id="sourceDialogContent"></div></form></dialog>
+  <dialog class="source-dialog" id="sourceDialog" aria-labelledby="sourceDialogTitle"><form method="dialog"><div class="dialog-heading"><div><span>Provenance</span><h2 id="sourceDialogTitle">Source details</h2></div><button value="cancel" class="icon-button" aria-label="Close source details"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div id="sourceDialogContent"></div></form></dialog>
   <div class="toast-region" id="toastRegion" role="status" aria-live="polite"></div>
   <script type="module" src="./app.js"></script>
 </body>

@@ -8,16 +8,17 @@ Nexus Verity compares sustainability claims with regulatory filings and other pu
 
 ## Features
 
-- Portfolio queue with priorities, owners, due dates, progress, and local activity history
-- Four clearly labelled synthetic demonstration cases
-- Side-by-side source excerpts with stable provenance records
+- Focused review queue with status scopes, search, ownership, progress, and due dates
+- One public Microsoft example plus four clearly labelled synthetic demonstration cases
+- Persistent finding rail, side-by-side source excerpts, and a dedicated decision inspector
 - Comparability gates for metric, period, scope, unit, boundary, and certainty
 - Contradiction, support, uncertainty, non-comparable, and missing-evidence states
 - Human decisions, rationales, timestamps, filters, and local persistence
 - Searchable document library and structured JSON exports
 - Local TXT and text-based PDF ingestion; documents are not uploaded by the application
-- Research library, reporting standards, regulators, and open-source evidence references
-- Keyboard navigation, global search, reduced-motion and high-contrast preferences
+- Keyboard shortcuts for finding navigation, decisions, and saving
+- Copyable evidence excerpts with citations and original-source links
+- Visible focus, reduced-motion support, and semantic status labels
 - Responsive evidence workflow with no horizontal overflow at 390 px
 
 ## Run locally
@@ -38,7 +39,7 @@ No dependency installation or build step is required.
 npm test
 ```
 
-The deterministic engine suite contains five tests. The browser suite requires the optional Playwright development dependency and uses Microsoft Edge on Windows. Install development dependencies, keep the local server active, and run:
+The deterministic engine suite contains six tests. The browser suite requires the Playwright development dependency and uses Microsoft Edge on Windows. Install development dependencies, keep the local server active, and run:
 
 ```bash
 npm install
@@ -47,9 +48,9 @@ npm run test:browser
 
 Release verification completed on 20 October 2026:
 
-- Engine: 5/5 passed
-- Browser workflow: 18/18 passed
-- Combined: 23/23 passed
+- Engine: 6/6 passed
+- Browser workflow: 23/23 passed
+- Combined: 29/29 passed
 
 ## Repository structure
 
@@ -66,7 +67,7 @@ docs/DESIGN.md            Design system and interaction direction
 
 ## Safety and privacy
 
-- All included company names, documents, and findings are synthetic.
+- The Microsoft example uses linked public documents. All other company names, documents, and findings are synthetic.
 - A “potential contradiction” is a screening signal, not a legal or misconduct conclusion.
 - Imported documents remain in the browser session for this prototype.
 - Scanned PDFs require OCR outside the current release.
@@ -74,7 +75,7 @@ docs/DESIGN.md            Design system and interaction direction
 
 ## Research basis
 
-The methodology draws on recent peer-reviewed ESG and claim-verification research, including CLARIESG, A3CG, ML-Promise, ESG-CID, ClimateCheck, UnifEE, and FEVER. Product controls are documented in the in-app Knowledge section.
+The methodology draws on recent peer-reviewed ESG and claim-verification research, including CLARIESG, A3CG, ML-Promise, ESG-CID, ClimateCheck, UnifEE, and FEVER. Product controls and safety boundaries are documented in `docs/PRODUCT.md`.
 
 ## License
 

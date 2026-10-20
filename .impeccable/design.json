@@ -1,0 +1,40 @@
+{
+  "name": "Nexus Verity evidence operations console",
+  "version": "2.0",
+  "source": "docs/DESIGN.md",
+  "tokens": {
+    "colors": {
+      "ink": "#17191d",
+      "muted": "#68707b",
+      "canvas": "#f7f8f8",
+      "surface": "#ffffff",
+      "paper": "#fcfbf7",
+      "line": "#dfe2e6",
+      "primary": "#3758d3",
+      "danger": "#c23a34",
+      "success": "#147568",
+      "warning": "#9a6700"
+    },
+    "typography": {
+      "ui": "IBM Plex Sans",
+      "evidence": "IBM Plex Serif",
+      "baseSize": "14px",
+      "baseLineHeight": 1.45
+    },
+    "spacingBase": "4px",
+    "controlRadius": "6px",
+    "controlMinHeight": "38px"
+  },
+  "breakpoints": {
+    "wide": "1180px",
+    "tablet": "840px",
+    "mobile": "680px",
+    "compact": "430px"
+  },
+  "quality": {
+    "minimumViewport": "390px",
+    "targetContrast": "WCAG 2.2 AA",
+    "reducedMotion": true,
+    "colorOnlyStatus": false
+  }
+}

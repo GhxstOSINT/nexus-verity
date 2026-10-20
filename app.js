@@ -16,6 +16,7 @@ const reviews = JSON.parse(localStorage.getItem("nexus-verity-reviews") || "{}")
 let activeCase = 0;
 let activeFinding = 0;
 let scopeFilter = "all";
+let caseScope = "all";
 let selectedDecision = "";
 let analysis = caseAnalysis(0);
 
@@ -31,8 +32,13 @@ function facts(claim) { if (!claim) return `<div><dt>Evidence</dt><dd>Not found<
 function renderCases() {
   const query = $("caseSearch").value.trim().toLowerCase();
   const status = $("caseStatus").value;
-  const rows = cases.map((item, index) => ({ item, index, findings: caseAnalysis(index).findings })).filter(({ item }) => (!query || `${item.company} ${item.code} ${item.title}`.toLowerCase().includes(query)) && (status === "all" || item.status === status));
-  $("caseList").innerHTML = rows.length ? `<div class="case-row case-row-head" aria-hidden="true"><span>Company</span><span>Status</span><span>Findings</span><span>Reviewed</span><span>Due</span><span></span></div>${rows.map(({ item, index, findings }) => `<button class="case-row" data-open-case="${index}"><span class="case-name"><strong>${esc(item.company)}</strong><small>${esc(item.code)} · ${esc(item.title)}</small></span><span><i class="status-dot ${item.status === "In review" ? "live" : ""}"></i>${esc(item.status)}</span><span>${findings.length}</span><span>${reviewedCount(index)} / ${findings.length}</span><span>${esc(item.due)}</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>`).join("")}` : `<div class="empty-state"><strong>No cases found</strong><span>Try a different search or status.</span></div>`;
+  const all = cases.map((item, index) => ({ item, index, findings: caseAnalysis(index).findings, reviewed: reviewedCount(index) }));
+  const totalFindings = all.reduce((sum, row) => sum + row.findings.length, 0), reviewedFindings = all.reduce((sum, row) => sum + row.reviewed, 0);
+  $("openCasesCount").textContent = all.filter(row => row.reviewed < row.findings.length).length;
+  $("totalFindingsCount").textContent = totalFindings;
+  $("pendingFindingsCount").textContent = Math.max(0, totalFindings - reviewedFindings);
+  const rows = all.filter(({ item, findings, reviewed }) => (!query || `${item.company} ${item.code} ${item.title}`.toLowerCase().includes(query)) && (status === "all" || item.status === status) && (caseScope === "all" || (caseScope === "complete" ? reviewed === findings.length : reviewed < findings.length)));
+  $("caseList").innerHTML = rows.length ? `<div class="case-row case-row-head" aria-hidden="true"><span>Company</span><span>Status</span><span>Highest signal</span><span>Review</span><span>Owner</span><span>Due</span><span></span></div>${rows.map(({ item, index, findings, reviewed }) => { const signal = findings.some(f => f.result.label === "potential contradiction") ? "potential contradiction" : findings.some(f => f.result.label === "non-comparable") ? "non-comparable" : findings.some(f => f.result.label === "uncertain") ? "uncertain" : "supported"; const percent = findings.length ? Math.round(reviewed / findings.length * 100) : 0; return `<button class="case-row" data-open-case="${index}"><span class="case-name"><strong>${esc(item.company)}</strong><small>${esc(item.code)} · ${esc(item.title)}</small></span><span><i class="status-dot ${item.status === "In review" ? "live" : ""}"></i>${esc(item.status)}</span><span><span class="table-result ${resultClass(signal)}">${esc(signal)}</span></span><span class="review-cell"><i class="mini-progress"><span style="width:${percent}%"></span></i><small>${reviewed}/${findings.length}</small></span><span>${esc(item.owner)}</span><span>${esc(item.due)}</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>`; }).join("")}` : `<div class="empty-state"><strong>No cases found</strong><span>Try a different search or filter.</span></div>`;
   document.querySelectorAll("[data-open-case]").forEach(button => button.addEventListener("click", () => { activeCase = Number(button.dataset.openCase); activeFinding = 0; renderCase(); switchView("workspace"); }));
 }
 
@@ -58,6 +64,7 @@ function renderFinding() {
   const reviewed = reviewedCount(activeCase), percent = analysis.findings.length ? Math.round(reviewed / analysis.findings.length * 100) : 0;
   $("reviewPercent").textContent = `${percent}% reviewed`; $("reviewProgressBar").style.width = `${percent}%`; $("previousFinding").disabled = activeFinding === 0; $("nextFinding").disabled = activeFinding >= analysis.findings.length - 1;
   document.querySelectorAll("#findingsTable tr[data-finding]").forEach(row => row.classList.toggle("active", Number(row.dataset.finding) === activeFinding));
+  document.querySelectorAll("#findingRail [data-finding]").forEach(row => row.classList.toggle("active", Number(row.dataset.finding) === activeFinding));
 }
 
 function filteredFindings() {
@@ -68,6 +75,9 @@ function renderTable() {
   const rows = filteredFindings();
   $("findingsTable").innerHTML = rows.length ? rows.map(({ finding, index, saved }) => `<tr data-finding="${index}" tabindex="0"><td>${String(index + 1).padStart(2, "0")}</td><td><strong>${esc(finding.claim.metric)}</strong></td><td><span class="table-result ${resultClass(finding.result.label)}">${esc(finding.result.label)}</span></td><td>${Math.round(finding.result.confidence * 100)}%</td><td>${saved ? esc(saved.decision) : "Pending"}</td></tr>`).join("") : `<tr><td colspan="5"><div class="empty-state">No findings match this filter.</div></td></tr>`;
   document.querySelectorAll("#findingsTable tr[data-finding]").forEach(row => { const open = () => { activeFinding = Number(row.dataset.finding); renderFinding(); window.scrollTo({ top: 0, behavior: "smooth" }); }; row.addEventListener("click", open); row.addEventListener("keydown", event => { if (event.key === "Enter") open(); }); });
+  $("railCount").textContent = `${rows.length} shown`;
+  $("findingRail").innerHTML = rows.length ? rows.map(({ finding, index, saved }) => `<button class="finding-item ${index === activeFinding ? "active" : ""}" data-finding="${index}"><i class="${resultClass(finding.result.label)}"></i><span><strong>${esc(finding.claim.metric)}</strong><small>${esc(finding.result.label)} · ${Math.round(finding.result.confidence * 100)}%</small>${saved ? `<small class="reviewed">Reviewed · ${esc(saved.decision)}</small>` : ""}</span></button>`).join("") : `<div class="empty-state"><strong>No findings</strong><span>Change the current filter.</span></div>`;
+  document.querySelectorAll("#findingRail [data-finding]").forEach(button => button.addEventListener("click", () => { activeFinding = Number(button.dataset.finding); renderFinding(); }));
 }
 
 function allDocuments() { const seen = new Map(); cases.forEach(item => [item.primary, item.evidence].forEach(document => seen.set(document.id, document))); return [...seen.values()]; }
@@ -82,10 +92,15 @@ function showSource(document) {
   $("sourceDialogContent").innerHTML = `<div class="source-detail"><p>${esc(document.title)}</p><div class="source-detail-grid"><div><span>Document ID</span><strong>${esc(document.id)}</strong></div><div><span>Type</span><strong>${esc(document.sourceType)}</strong></div><div><span>File</span><strong>${esc(document.file || "Local text")}</strong></div><div><span>Location</span><strong>${esc(document.page ? `Page ${document.page}` : "Web page")}</strong></div></div><blockquote>${esc(document.text)}</blockquote>${document.url ? `<a class="button source-original" href="${esc(document.url)}" target="_blank" rel="noreferrer">Open original document</a>` : ""}</div>`;
   $("sourceDialog").showModal();
 }
-function switchView(view) {
+function switchView(view, updateHash = true) {
   document.querySelectorAll(".view").forEach(section => section.classList.toggle("active", section.id === view));
   document.querySelectorAll("[data-view]").forEach(button => button.classList.toggle("active", button.dataset.view === view));
-  history.replaceState(null, "", `#${view}`); window.scrollTo(0, 0); requestAnimationFrame(() => window.scrollTo(0, 0)); if (view === "cases") renderCases(); if (view === "documents") renderDocuments();
+  if (updateHash) history.replaceState(null, "", `#${view}`);
+  const resetScroll = () => window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  resetScroll();
+  requestAnimationFrame(() => requestAnimationFrame(resetScroll));
+  setTimeout(resetScroll, 80);
+  if (view === "cases") renderCases(); if (view === "documents") renderDocuments();
 }
 async function readFile(input, target, state) {
   const file = input.files[0]; if (!file) return;
@@ -105,6 +120,7 @@ async function readFile(input, target, state) {
 document.querySelectorAll("[data-view]").forEach(button => button.addEventListener("click", () => switchView(button.dataset.view)));
 document.querySelectorAll("[data-action-view]").forEach(button => button.addEventListener("click", event => { event.preventDefault(); switchView(button.dataset.actionView); }));
 $("caseSearch").addEventListener("input", renderCases); $("caseStatus").addEventListener("change", renderCases); $("documentSearch").addEventListener("input", renderDocuments); $("documentType").addEventListener("change", renderDocuments);
+document.querySelectorAll("[data-case-scope]").forEach(button => button.addEventListener("click", () => { caseScope = button.dataset.caseScope; document.querySelectorAll("[data-case-scope]").forEach(item => item.classList.toggle("active", item === button)); renderCases(); }));
 $("caseSwitcher").addEventListener("change", event => { activeCase = Number(event.target.value); activeFinding = 0; renderCase(); }); $("statusFilter").addEventListener("change", renderTable);
 document.querySelectorAll("[data-scope]").forEach(button => button.addEventListener("click", () => { scopeFilter = button.dataset.scope; document.querySelectorAll("[data-scope]").forEach(item => item.classList.toggle("active", item === button)); renderTable(); }));
 $("previousFinding").addEventListener("click", () => { if (activeFinding > 0) { activeFinding -= 1; renderFinding(); } }); $("nextFinding").addEventListener("click", () => { if (activeFinding < analysis.findings.length - 1) { activeFinding += 1; renderFinding(); } });
@@ -113,6 +129,8 @@ $("reviewNote").addEventListener("input", event => { $("noteCount").textContent 
 $("saveReview").addEventListener("click", () => { const finding = analysis.findings[activeFinding]; if (!selectedDecision) { toast("Choose a review decision first.", "error"); return; } reviews[reviewKey(finding)] = { decision: selectedDecision, note: $("reviewNote").value.trim(), savedAt: new Date().toISOString() }; localStorage.setItem("nexus-verity-reviews", JSON.stringify(reviews)); renderTable(); renderFinding(); renderCases(); toast("Decision saved in this browser."); });
 $("exportButton").addEventListener("click", () => { const item = cases[activeCase]; download(`${item.code.toLowerCase().replace("–", "-")}-review.json`, JSON.stringify({ case: item, findings: analysis.findings, reviews: Object.fromEntries(Object.entries(reviews).filter(([key]) => key.startsWith(item.code))) }, null, 2)); toast("Review exported."); });
 document.querySelectorAll("[data-source-side]").forEach(button => button.addEventListener("click", () => showSource(button.dataset.sourceSide === "claim" ? cases[activeCase].primary : cases[activeCase].evidence)));
+document.querySelectorAll("[data-copy-side]").forEach(button => button.addEventListener("click", async () => { const finding = analysis.findings[activeFinding], claim = button.dataset.copySide === "claim" ? finding?.claim : finding?.evidence; if (!claim) { toast("No excerpt is available to copy.", "error"); return; } try { await navigator.clipboard.writeText(`${claim.text}\n— ${claim.documentTitle}${claim.page ? `, p. ${claim.page}` : ""}`); toast("Excerpt and citation copied."); } catch { toast("Copy failed. Select the excerpt manually.", "error"); } }));
+$("collapseRail").addEventListener("click", () => { document.body.classList.toggle("rail-collapsed"); $("collapseRail").setAttribute("aria-label", document.body.classList.contains("rail-collapsed") ? "Expand findings" : "Collapse findings"); });
 $("primaryFile").addEventListener("change", event => readFile(event.target, "primaryText", "primaryFileState")); $("evidenceFile").addEventListener("change", event => readFile(event.target, "evidenceInputText", "evidenceFileState"));
 $("importForm").addEventListener("submit", event => {
   event.preventDefault(); const primaryText = $("primaryText").value.trim(), evidenceText = $("evidenceInputText").value.trim();
@@ -123,4 +141,16 @@ $("importForm").addEventListener("submit", event => {
 });
 
 const initialView = ["cases", "workspace", "documents", "import"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "cases";
-renderCases(); renderDocuments(); renderCase(); switchView(initialView);
+// Remove the native anchor before first paint so a direct #workspace URL never
+// scrolls the page underneath the sticky application header.
+if (location.hash) history.replaceState(null, "", `${location.pathname}${location.search}`);
+renderCases(); renderDocuments(); renderCase(); switchView(initialView, false);
+
+document.addEventListener("keydown", event => {
+  if (!$("workspace").classList.contains("active") || $("sourceDialog").open || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
+  const key = event.key.toLowerCase();
+  if (key === "j" && activeFinding < analysis.findings.length - 1) { activeFinding += 1; renderFinding(); }
+  if (key === "k" && activeFinding > 0) { activeFinding -= 1; renderFinding(); }
+  if (["1", "2", "3"].includes(key)) { const decision = {"1":"confirmed","2":"revised","3":"non-comparable"}[key]; document.querySelector(`[data-decision="${decision}"]`)?.click(); }
+  if ((event.ctrlKey || event.metaKey) && key === "s") { event.preventDefault(); $("saveReview").click(); }
+});
