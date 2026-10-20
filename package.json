@@ -1,0 +1,18 @@
+{
+  "name": "nexus-verity",
+  "version": "2.0.0",
+  "private": false,
+  "description": "Evidence-linked ESG contradiction analysis and assurance review workspace",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test tests/engine.test.mjs",
+    "test:browser": "node tests/browser-qa.cjs",
+    "check": "node --check app.js && node --check engine.js"
+  },
+  "keywords": ["esg", "sustainability", "assurance", "document-review", "fact-verification"],
+  "license": "MIT",
+  "devDependencies": {
+    "playwright": "^1.55.0"
+  }
+}
