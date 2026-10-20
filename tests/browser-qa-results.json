@@ -1,7 +1,7 @@
 {
-  "runAt": "2026-10-20T08:43:27.180Z",
-  "passed": 30,
-  "total": 30,
+  "runAt": "2026-10-20T08:56:06.968Z",
+  "passed": 31,
+  "total": 31,
   "results": [
     {
       "name": "cases page loads",
@@ -134,9 +134,14 @@
       "detail": ""
     },
     {
+      "name": "case changes reset finding filters and counts",
+      "pass": true,
+      "detail": ""
+    },
+    {
       "name": "direct mobile route starts at the workspace header",
       "pass": true,
-      "detail": "{\"scrollY\":0,\"workspaceTop\":107.296875,\"headerTop\":107.296875}"
+      "detail": "{\"scrollY\":0,\"workspaceTop\":108,\"headerTop\":108}"
     },
     {
       "name": "mobile evidence remains visible",

@@ -53,6 +53,14 @@ The blue accent is reserved for action and focus. Status colors do not decorate 
 - Panels use 1px borders. Shadow is reserved for temporary overlays such as dialogs and toasts.
 - Control radius is 5–8px. Data tables and evidence sheets remain square-edged.
 
+### Alignment and numeric hierarchy
+
+- Page shells, headers, toolbars, and tables share explicit container edges; controls align to the same horizontal rhythm.
+- Quantitative summaries, confidence values, progress counts, dates, statuses, and evidence facts are centered within their columns and use tabular numerals.
+- Numbers receive the strongest weight inside analytical components; their labels are smaller, quieter, and consistently spaced.
+- Company names, document titles, explanations, and quoted evidence remain left-aligned because they are read as language rather than compared as quantities.
+- Switching cases resets finding filters so the rail count, visible evidence, and selected scope cannot drift out of agreement.
+
 ## Information architecture
 
 ### Review queue

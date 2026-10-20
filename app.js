@@ -423,6 +423,7 @@ function renderCases() {
     button.addEventListener("click", () => {
       activeCase = Number(button.dataset.openCase);
       activeFinding = 0;
+      resetFindingFilters();
       renderCase();
       switchView("workspace");
     }),
@@ -550,6 +551,15 @@ function filteredFindings() {
         (resultFilter === "all" || finding.result.label === resultFilter) &&
         (scopeFilter === "all" ||
           (scopeFilter === "reviewed" ? saved : !saved)),
+    );
+}
+function resetFindingFilters() {
+  scopeFilter = "all";
+  $("statusFilter").value = "all";
+  document
+    .querySelectorAll("[data-scope]")
+    .forEach((button) =>
+      button.classList.toggle("active", button.dataset.scope === "all"),
     );
 }
 function renderTable() {
@@ -763,6 +773,7 @@ function startDemo() {
   const demoCase = cases.findIndex((item) => item.code === "SYN–001");
   activeCase = demoCase >= 0 ? demoCase : 0;
   activeFinding = 0;
+  resetFindingFilters();
   renderCase();
   switchView("workspace");
   demoStep = 0;
@@ -803,6 +814,7 @@ document.querySelectorAll("[data-case-scope]").forEach((button) =>
 $("caseSwitcher").addEventListener("change", (event) => {
   activeCase = Number(event.target.value);
   activeFinding = 0;
+  resetFindingFilters();
   renderCase();
 });
 $("statusFilter").addEventListener("change", renderTable);
@@ -993,6 +1005,7 @@ $("importForm").addEventListener("submit", (event) => {
   cases.unshift(item);
   activeCase = 0;
   activeFinding = 0;
+  resetFindingFilters();
   $("importValidation").hidden = true;
   renderCase();
   switchView("workspace");

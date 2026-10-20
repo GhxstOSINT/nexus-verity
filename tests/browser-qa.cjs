@@ -199,9 +199,24 @@ const path = require("path");
     ),
   );
   await page.locator("#workspace [data-action-view='cases']").click();
+  await page.locator("[data-case-scope='all']").click();
   await page.waitForTimeout(3400);
   await page.screenshot({
     path: path.join(__dirname, "screenshots", "desktop.png"),
+    fullPage: true,
+  });
+  await page
+    .locator("#caseList [data-open-case]", { hasText: "Atlas Components" })
+    .click();
+  check(
+    "case changes reset finding filters and counts",
+    (await page.locator("#findingRail [data-finding]").count()) === 4 &&
+      (await page
+        .locator("[data-scope='all']")
+        .evaluate((button) => button.classList.contains("active"))),
+  );
+  await page.screenshot({
+    path: path.join(__dirname, "screenshots", "workspace-desktop.png"),
     fullPage: true,
   });
   const mobile = await browser.newPage({
