@@ -19,17 +19,19 @@ The system combines the disciplined information density and neutral surfaces ass
 
 ### Color
 
-- `ink` `#17191d`: primary text, the summary strip, and selected segmented controls.
-- `ink-2` `#34373d`: secondary dark text.
-- `muted` `#68707b`: metadata and supporting copy.
+- `ink` `#121722`: primary text and selected segmented controls.
+- `ink-2` `#2e3543`: secondary dark text.
+- `muted` `#667080`: metadata and supporting copy.
 - `subtle` `#9198a1`: quiet labels and disabled content.
-- `canvas` `#f7f8f8`: application background.
+- `canvas` `#f3f5f7`: application background.
 - `surface` `#ffffff`: controls, panels, and tables.
-- `surface-2` `#f0f2f3`: table headers and subtle hover states.
-- `paper` `#fcfbf7`: quoted source-document sheets.
+- `surface-2` `#eef1f4`: table headers and subtle hover states.
+- `paper` `#fdfbf6`: quoted source-document sheets.
 - `line` `#dfe2e6`: default hairline borders.
 - `line-strong` `#c6cbd1`: input and button borders.
-- `primary` `#3758d3`: primary action, focus, active navigation, and citations.
+- `primary` `#4058d8`: primary action, focus, active navigation, and citations.
+- `navy` `#111827`: the decision ledger and high-authority operational surfaces.
+- `warm` `#d7ad55`: archival icons and completion progress on the dark ledger only.
 - `danger` `#c23a34`: contradiction and failed-comparability signals.
 - `success` `#147568`: supported and reviewed states.
 - `warning` `#9a6700`: qualified or uncertain findings.
@@ -50,8 +52,8 @@ The blue accent is reserved for action and focus. Status colors do not decorate 
 
 - Spacing follows a 4px base rhythm; common gaps are 8, 12, 16, 20, 24, and 28px.
 - Controls have a minimum height of 38–40px; primary mobile targets remain comfortably tappable.
-- Panels use 1px borders. Shadow is reserved for temporary overlays such as dialogs and toasts.
-- Control radius is 5–8px. Data tables and evidence sheets remain square-edged.
+- Permanent work surfaces use 1px borders; the decision ledger earns one wide, soft elevation because it is the queue's command surface. Temporary overlays use a stronger elevation.
+- Controls use 8px radii and major work surfaces use 12–14px radii. Geometry stays compact and never becomes pill-heavy.
 
 ### Alignment and numeric hierarchy
 
@@ -65,7 +67,7 @@ The blue accent is reserved for action and focus. Status colors do not decorate 
 
 ### Review queue
 
-The queue is the home page. A compact summary strip shows active cases, total findings, and pending work. Scope tabs, search, and one status filter precede a worklist with company, state, strongest signal, progress, owner, and due date. The public Microsoft example is identified by its case metadata and source note; synthetic examples remain clearly labelled.
+The queue is the home page. A dark decision ledger names the highest-signal open case, exposes active cases, total findings, pending work, and portfolio completion, and provides one direct continuation action. Scope tabs, search, and one status filter precede a worklist with company, state, strongest signal, progress, owner, and due date. The public Microsoft example is identified by its case metadata and source note; synthetic examples remain clearly labelled.
 
 ### Evidence workspace
 
@@ -97,6 +99,9 @@ The import flow places the reported disclosure beside an expandable stack of com
 - Success and error feedback appears in a non-blocking toast region.
 - The export menu offers a PDF review report, CSV evidence register, and complete JSON record without adding another top-level page.
 - The guided demo uses a small anchored coach panel and focuses four existing product regions; it never replaces the real interface with a presentation layer.
+- View changes use a 420ms folio reveal that combines a shallow clip, bounded blur, and opacity to preserve spatial continuity. Filter updates acknowledge recalculation in 180ms, progress updates use a scale transform, and success toasts arrive in 280ms.
+- Motion is removed for `prefers-reduced-motion`; no interaction waits for animation to finish.
+- Icons use one authored archival line language with rounded terminals and consistent 1.55–1.8px strokes. Unicode glyphs and emoji are not used as interface icons.
 
 ## Responsive behavior
 

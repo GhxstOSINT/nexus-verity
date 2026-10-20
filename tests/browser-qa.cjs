@@ -30,6 +30,19 @@ const path = require("path");
     (await page.locator("#totalFindingsCount").textContent()) === "11",
   );
   check(
+    "premium dashboard identifies the highest-signal next review",
+    (await page.locator("#priorityCaseName").textContent()) ===
+      "Atlas Components",
+  );
+  check(
+    "dashboard exposes an accessible completion measure",
+    (await page.locator(".summary-progress-track").getAttribute("role")) ===
+      "progressbar" &&
+      (await page
+        .locator(".summary-progress-track")
+        .getAttribute("aria-valuenow")) === "0",
+  );
+  check(
     "primary navigation is limited to two destinations",
     (await page.locator(".topbar [data-view]").count()) === 2,
   );
@@ -215,10 +228,35 @@ const path = require("path");
         .locator("[data-scope='all']")
         .evaluate((button) => button.classList.contains("active"))),
   );
+  await page.waitForTimeout(520);
   await page.screenshot({
     path: path.join(__dirname, "screenshots", "workspace-desktop.png"),
     fullPage: true,
   });
+  const mobileDashboard = await browser.newPage({
+    viewport: { width: 390, height: 844 },
+    deviceScaleFactor: 1,
+  });
+  await mobileDashboard.goto("http://127.0.0.1:4174#cases", {
+    waitUntil: "networkidle",
+  });
+  check(
+    "mobile dashboard has no horizontal overflow",
+    await mobileDashboard.evaluate(
+      () =>
+        document.documentElement.scrollWidth <=
+        document.documentElement.clientWidth + 1,
+    ),
+  );
+  check(
+    "mobile dashboard keeps its next-review action visible",
+    await mobileDashboard.locator("#continueReview").isVisible(),
+  );
+  await mobileDashboard.screenshot({
+    path: path.join(__dirname, "screenshots", "mobile-dashboard.png"),
+    fullPage: true,
+  });
+  await mobileDashboard.close();
   const mobile = await browser.newPage({
     viewport: { width: 390, height: 844 },
     deviceScaleFactor: 1,

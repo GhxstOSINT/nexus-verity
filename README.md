@@ -8,7 +8,7 @@ Nexus Verity compares sustainability claims with regulatory filings and other pu
 
 ## Features
 
-- Focused review queue with status scopes, search, ownership, progress, and due dates
+- Premium decision ledger with next-best-action routing, portfolio progress, search, ownership, and due dates
 - One public Microsoft example plus four clearly labelled synthetic demonstration cases
 - Persistent finding rail, side-by-side source excerpts, and a dedicated decision inspector
 - Comparability gates for metric, period, scope, unit, boundary, and certainty
@@ -22,6 +22,7 @@ Nexus Verity compares sustainability claims with regulatory filings and other pu
 - Keyboard shortcuts for finding navigation, decisions, and saving
 - Copyable evidence excerpts with citations and original-source links
 - Visible focus, reduced-motion support, and semantic status labels
+- Purposeful folio transitions, filter feedback, save confirmation, and archival line icons
 - Responsive evidence workflow with no horizontal overflow from 320 px phones through desktop
 
 ## Run locally
@@ -52,8 +53,8 @@ npm run test:browser
 Release verification completed on 20 October 2026:
 
 - Engine: 8/8 passed
-- Browser workflow: 39/39 passed
-- Combined: 47/47 passed
+- Browser workflow: 43/43 passed
+- Combined: 51/51 passed
 
 ## Repository structure
 

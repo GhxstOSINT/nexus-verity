@@ -84,18 +84,66 @@
           </div>
         </div>
         <div class="workspace-summary" aria-label="Workspace summary">
-          <div>
-            <strong id="openCasesCount">0</strong><span>Active cases</span>
+          <div class="summary-brief">
+            <div>
+              <h2>Decision ledger</h2>
+              <p>
+                Evidence is ready. Continue with the highest-signal open case.
+              </p>
+            </div>
+            <button class="summary-action" id="continueReview" type="button">
+              <span
+                ><small>Next review</small
+                ><strong id="priorityCaseName">Loading queue…</strong></span
+              >
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12h14m-5-5 5 5-5 5" />
+              </svg>
+            </button>
           </div>
-          <div>
-            <strong id="totalFindingsCount">0</strong
-            ><span>Total findings</span>
+          <div class="summary-metrics">
+            <div>
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M3.5 7.5h6l2-2h9v13h-17zM3.5 9.5h17" />
+              </svg>
+              <span><strong id="openCasesCount">0</strong>Active cases</span>
+            </div>
+            <div>
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M6 3.5h9l3 3v14H6zM14.5 3.5V7H18M9 11h6M9 15h6" />
+              </svg>
+              <span
+                ><strong id="totalFindingsCount">0</strong>Total findings</span
+              >
+            </div>
+            <div>
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8.5" />
+                <path d="M12 7.5V12l3 2" />
+              </svg>
+              <span
+                ><strong id="pendingFindingsCount">0</strong>Awaiting
+                review</span
+              >
+            </div>
           </div>
-          <div>
-            <strong id="pendingFindingsCount">0</strong
-            ><span>Awaiting review</span>
+          <div class="summary-progress">
+            <div>
+              <span>Portfolio completion</span
+              ><strong id="portfolioProgressText">0 of 0 reviewed</strong>
+            </div>
+            <div
+              class="summary-progress-track"
+              role="progressbar"
+              aria-label="Portfolio review completion"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <span id="portfolioProgressBar"></span>
+            </div>
+            <p>Your decisions remain local until you export a report.</p>
           </div>
-          <p>Your work stays in this browser unless you export it.</p>
         </div>
         <div class="case-toolbar">
           <div class="segmented" role="group" aria-label="Case scope">

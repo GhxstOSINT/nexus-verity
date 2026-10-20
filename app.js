@@ -369,6 +369,18 @@ function facts(claim) {
     .join("");
 }
 
+function strongestSignal(findings) {
+  return findings.some((finding) =>
+    finding.result.label === "potential contradiction"
+  )
+    ? "potential contradiction"
+    : findings.some((finding) => finding.result.label === "non-comparable")
+      ? "non-comparable"
+      : findings.some((finding) => finding.result.label === "uncertain")
+        ? "uncertain"
+        : "supported";
+}
+
 function renderCases() {
   const query = $("caseSearch").value.trim().toLowerCase();
   const status = $("caseStatus").value;
@@ -388,6 +400,28 @@ function renderCases() {
     0,
     totalFindings - reviewedFindings,
   );
+  const completion = totalFindings
+    ? Math.round((reviewedFindings / totalFindings) * 100)
+    : 0;
+  $("portfolioProgressText").textContent =
+    `${reviewedFindings} of ${totalFindings} reviewed`;
+  $("portfolioProgressBar").style.transform = `scaleX(${completion / 100})`;
+  $("portfolioProgressBar").parentElement.setAttribute(
+    "aria-valuenow",
+    String(completion),
+  );
+  const priority =
+    all.find(
+      ({ findings, reviewed }) =>
+        reviewed < findings.length &&
+        strongestSignal(findings) === "potential contradiction",
+    ) || all.find(({ findings, reviewed }) => reviewed < findings.length);
+  const continueButton = $("continueReview");
+  continueButton.disabled = !priority;
+  continueButton.dataset.caseIndex = priority ? String(priority.index) : "";
+  $("priorityCaseName").textContent = priority
+    ? priority.item.company
+    : "Queue complete";
   const rows = all.filter(
     ({ item, findings, reviewed }) =>
       (!query ||
@@ -403,15 +437,7 @@ function renderCases() {
   $("caseList").innerHTML = rows.length
     ? `<div class="case-row case-row-head" aria-hidden="true"><span>Company</span><span>Status</span><span>Highest signal</span><span>Review</span><span>Owner</span><span>Due</span><span></span></div>${rows
         .map(({ item, index, findings, reviewed }) => {
-          const signal = findings.some(
-            (f) => f.result.label === "potential contradiction",
-          )
-            ? "potential contradiction"
-            : findings.some((f) => f.result.label === "non-comparable")
-              ? "non-comparable"
-              : findings.some((f) => f.result.label === "uncertain")
-                ? "uncertain"
-                : "supported";
+          const signal = strongestSignal(findings);
           const percent = findings.length
             ? Math.round((reviewed / findings.length) * 100)
             : 0;
@@ -419,6 +445,16 @@ function renderCases() {
         })
         .join("")}`
     : `<div class="empty-state"><strong>No cases found</strong><span>Try a different search or filter.</span></div>`;
+  if (
+    $("caseList").dataset.hydrated &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    $("caseList").animate([{ opacity: 0.68 }, { opacity: 1 }], {
+      duration: 180,
+      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+    });
+  }
+  $("caseList").dataset.hydrated = "true";
   document.querySelectorAll("[data-open-case]").forEach((button) =>
     button.addEventListener("click", () => {
       activeCase = Number(button.dataset.openCase);
@@ -653,6 +689,10 @@ function switchView(view, updateHash = true) {
       button.classList.toggle("active", button.dataset.view === view),
     );
   if (updateHash) history.replaceState(null, "", `#${view}`);
+  const destination = document.getElementById(view);
+  destination.classList.remove("view-entering");
+  requestAnimationFrame(() => destination.classList.add("view-entering"));
+  setTimeout(() => destination.classList.remove("view-entering"), 520);
   const resetScroll = () =>
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   resetScroll();
@@ -800,6 +840,15 @@ document.querySelectorAll("[data-action-view]").forEach((button) =>
 );
 $("caseSearch").addEventListener("input", renderCases);
 $("caseStatus").addEventListener("change", renderCases);
+$("continueReview").addEventListener("click", (event) => {
+  const index = Number(event.currentTarget.dataset.caseIndex);
+  if (!Number.isInteger(index)) return;
+  activeCase = index;
+  activeFinding = 0;
+  resetFindingFilters();
+  renderCase();
+  switchView("workspace");
+});
 $("documentSearch").addEventListener("input", renderDocuments);
 $("documentType").addEventListener("change", renderDocuments);
 document.querySelectorAll("[data-case-scope]").forEach((button) =>
