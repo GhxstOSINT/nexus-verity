@@ -248,6 +248,10 @@ a {
   margin: 0;
   max-width: 68ch;
 }
+.heading-actions {
+  display: flex;
+  gap: 8px;
+}
 .workspace-summary {
   display: grid;
   grid-template-columns: 150px 150px 170px 1fr;
@@ -376,10 +380,9 @@ a {
   border-top: 1px solid var(--line);
   background: transparent;
   display: grid;
-  grid-template-columns: minmax(
-      250px,
-      2.2fr
-    ) 0.8fr 0.9fr 1.05fr 0.9fr 0.55fr 22px;
+  grid-template-columns:
+    minmax(250px, 2.2fr)
+    0.8fr 0.9fr 1.05fr 0.9fr 0.55fr 22px;
   gap: 18px;
   align-items: center;
   padding: 17px 20px;
@@ -536,6 +539,50 @@ a {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+.export-menu {
+  position: relative;
+}
+.export-menu > summary {
+  list-style: none;
+}
+.export-menu > summary::-webkit-details-marker {
+  display: none;
+}
+.export-menu > div {
+  position: absolute;
+  top: calc(100% + 7px);
+  right: 0;
+  z-index: 40;
+  width: 240px;
+  padding: 6px;
+  background: var(--surface);
+  border-radius: 7px;
+  box-shadow: 0 12px 32px rgba(16, 24, 40, 0.16);
+}
+.export-menu [role="menuitem"] {
+  width: 100%;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  padding: 10px;
+  text-align: left;
+}
+.export-menu [role="menuitem"]:hover,
+.export-menu [role="menuitem"]:focus-visible {
+  background: var(--surface-2);
+}
+.export-menu [role="menuitem"] strong,
+.export-menu [role="menuitem"] span {
+  display: block;
+}
+.export-menu [role="menuitem"] strong {
+  font-size: 12px;
+}
+.export-menu [role="menuitem"] span {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
 }
 .review-status {
   margin-top: 16px;
@@ -1078,6 +1125,11 @@ tbody tr.active {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  align-items: start;
+}
+.evidence-inputs {
+  display: grid;
+  gap: 12px;
 }
 .document-input {
   background: var(--surface);
@@ -1108,6 +1160,13 @@ tbody tr.active {
   color: var(--muted);
   font-size: 12px;
   margin: 0;
+}
+.input-heading .remove-source {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+.add-source {
+  margin-top: 12px;
 }
 .document-input > label:not(.file-picker) {
   display: block;
@@ -1276,6 +1335,57 @@ dialog::backdrop {
 .toast.error {
   background: var(--danger);
 }
+.demo-guide {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 70;
+  width: min(360px, calc(100vw - 40px));
+  padding: 18px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 18px 48px rgba(10, 14, 20, 0.28);
+}
+.demo-guide[hidden] {
+  display: none;
+}
+.demo-guide-head,
+.demo-guide-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.demo-guide-head > span {
+  color: #bec5ce;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.demo-guide .icon-button {
+  border-color: #4a5058;
+  background: transparent;
+  color: #fff;
+}
+.demo-guide h2 {
+  margin: 14px 0 6px;
+  font-size: 19px;
+  font-weight: 500;
+}
+.demo-guide p {
+  margin-bottom: 18px;
+  color: #cbd0d7;
+  font-size: 13px;
+}
+.demo-guide-actions .button:not(.button-primary) {
+  border-color: #505761;
+  background: transparent;
+  color: #fff;
+}
+.demo-focus {
+  outline: 3px solid var(--primary);
+  outline-offset: 4px;
+}
 body.rail-collapsed .review-workbench {
   grid-template-columns: 54px minmax(0, 1fr) 310px;
 }
@@ -1400,6 +1510,12 @@ body.rail-collapsed #collapseRail svg {
   .page-heading > .button {
     width: 100%;
   }
+  .heading-actions {
+    width: 100%;
+  }
+  .heading-actions .button {
+    flex: 1;
+  }
   .page-heading h1,
   .review-title-row h1 {
     font-size: 28px;
@@ -1467,6 +1583,9 @@ body.rail-collapsed #collapseRail svg {
   .review-header-actions select {
     width: 100%;
   }
+  .export-menu > div {
+    right: 0;
+  }
   .review-status {
     grid-template-columns: auto 1fr;
   }
@@ -1530,6 +1649,11 @@ body.rail-collapsed #collapseRail svg {
   .toast-region {
     left: 14px;
     right: 14px;
+  }
+  .demo-guide {
+    left: 14px;
+    bottom: 14px;
+    width: calc(100vw - 28px);
   }
   .toast {
     min-width: 0;

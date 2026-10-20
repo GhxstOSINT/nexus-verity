@@ -15,7 +15,10 @@ Nexus Verity compares sustainability claims with regulatory filings and other pu
 - Contradiction, support, uncertainty, non-comparable, and missing-evidence states
 - Human decisions, rationales, timestamps, filters, and local persistence
 - Searchable document library and structured JSON exports
-- Local TXT and text-based PDF ingestion; documents are not uploaded by the application
+- Multi-source TXT and text-based PDF ingestion; documents are not uploaded by the application
+- Page-accurate citations retained from uploaded PDFs
+- Audit-ready PDF reports, CSV evidence registers, and complete JSON exports
+- Four-step guided demo for a fast product walkthrough
 - Keyboard shortcuts for finding navigation, decisions, and saving
 - Copyable evidence excerpts with citations and original-source links
 - Visible focus, reduced-motion support, and semantic status labels
@@ -39,7 +42,7 @@ No dependency installation or build step is required.
 npm test
 ```
 
-The deterministic engine suite contains six tests. The browser suite requires the Playwright development dependency and uses Microsoft Edge on Windows. Install development dependencies, keep the local server active, and run:
+The deterministic engine suite contains eight tests. The browser suite requires the Playwright development dependency and uses Microsoft Edge on Windows. Install development dependencies, keep the local server active, and run:
 
 ```bash
 npm install
@@ -48,9 +51,9 @@ npm run test:browser
 
 Release verification completed on 20 October 2026:
 
-- Engine: 6/6 passed
-- Browser workflow: 23/23 passed
-- Combined: 29/29 passed
+- Engine: 8/8 passed
+- Browser workflow: 30/30 passed
+- Combined: 38/38 passed
 
 ## Repository structure
 

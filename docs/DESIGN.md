@@ -75,7 +75,7 @@ The document library is a searchable operational register. It exposes title, sou
 
 ### New comparison
 
-The import flow uses two parallel document panels on desktop and a single sequence on mobile. It accepts pasted text and local TXT or text-based PDF files, states the 25 MB limit, and makes local-processing privacy visible.
+The import flow places the reported disclosure beside an expandable stack of comparison sources on desktop and uses a single sequence on mobile. It accepts pasted text and local TXT or text-based PDF files, reports page-reading progress, states the 25 MB limit, and makes local-processing privacy visible. Additional sources are added inline and can be removed without a modal.
 
 ## Interaction model
 
@@ -87,6 +87,8 @@ The import flow uses two parallel document panels on desktop and a single sequen
 - Saved decisions persist in browser storage and update queue progress.
 - Source details open in a modal with provenance and an original-source link when available.
 - Success and error feedback appears in a non-blocking toast region.
+- The export menu offers a PDF review report, CSV evidence register, and complete JSON record without adding another top-level page.
+- The guided demo uses a small anchored coach panel and focuses four existing product regions; it never replaces the real interface with a presentation layer.
 
 ## Responsive behavior
 

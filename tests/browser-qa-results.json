@@ -1,7 +1,7 @@
 {
-  "runAt": "2026-10-20T08:04:45.277Z",
-  "passed": 23,
-  "total": 23,
+  "runAt": "2026-10-20T08:43:27.180Z",
+  "passed": 30,
+  "total": 30,
   "results": [
     {
       "name": "cases page loads",
@@ -25,6 +25,16 @@
     },
     {
       "name": "external requirement sections are absent",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "guided demo opens the strongest review case",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "guided demo advances through product actions",
       "pass": true,
       "detail": ""
     },
@@ -64,6 +74,21 @@
       "detail": ""
     },
     {
+      "name": "export menu offers PDF CSV and JSON",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "CSV evidence register downloads",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "generated report is a valid PDF download",
+      "pass": true,
+      "detail": ""
+    },
+    {
       "name": "keyboard shortcut selects a review decision",
       "pass": true,
       "detail": ""
@@ -95,6 +120,16 @@
     },
     {
       "name": "incomplete import is blocked with inline error",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "comparison form accepts multiple evidence sources",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "created case retains both comparison sources",
       "pass": true,
       "detail": ""
     },

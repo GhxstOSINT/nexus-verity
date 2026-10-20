@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Delegated by the user through the request to build the complete product. A client-first React/TypeScript application will be packaged with the Sites-supported Vinext toolchain so document content can remain in the browser while the application can still be deployed privately.
+A buildless, client-first HTML, CSS, and JavaScript application keeps document processing in the browser and runs from a zero-dependency local server.
 
 ## Users
 
@@ -30,16 +30,16 @@ Users begin with two or more English-language sustainability reports, regulatory
 
 ## Capabilities and Constraints
 
-- Ingest text-based PDF or plain-text documents locally in the browser; scanned-document OCR is identified as a post-MVP extension.
+- Ingest one primary disclosure and multiple text-based PDF or plain-text comparison sources locally in the browser; scanned-document OCR is identified as a post-MVP extension.
+- Preserve page-level text maps from uploaded PDFs so extracted claims retain exact citations.
 - Extract numeric and qualitative ESG claims with metric, value, unit, period, scope, target year, certainty, and source location.
 - Retrieve candidate evidence using metric vocabulary, numeric overlap, year overlap, and semantic cues.
 - Gate comparability before contradiction scoring.
 - Detect numeric, trend, target-status, scope/boundary, period, unit/denominator, policy/event, methodology/restatement, and qualification/certainty conflicts.
 - Label findings as potential contradiction, supported, uncertain, non-comparable, or no relevant evidence.
-- Support a synthetic demonstration corpus, manual text input, reviewer decisions, saved local state, evidence export, research references, and source guidance.
+- Support a synthetic demonstration corpus, a public-source example, manual text input, reviewer decisions, saved local state, PDF/CSV/JSON evidence exports, a guided demo, research references, and source guidance.
 - Never assert fraud, deception, or greenwashing. Results are screening signals for human verification, not legal conclusions.
 - The browser MVP does not upload user documents to a remote model or server.
-- Assumption: a private Sites deployment is acceptable because the user asked for the complete product and to be shown the tested result.
 
 ## Brand Commitments
 
