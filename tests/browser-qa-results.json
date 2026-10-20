@@ -1,10 +1,10 @@
 {
-  "runAt": "2026-10-20T04:46:09.996Z",
-  "passed": 18,
-  "total": 18,
+  "runAt": "2026-10-20T05:22:27.839Z",
+  "passed": 16,
+  "total": 16,
   "results": [
     {
-      "name": "portfolio overview loads",
+      "name": "cases page loads",
       "pass": true,
       "detail": ""
     },
@@ -14,12 +14,22 @@
       "detail": ""
     },
     {
-      "name": "demo opens in evidence workspace",
+      "name": "primary navigation is limited to two destinations",
       "pass": true,
       "detail": ""
     },
     {
-      "name": "both evidence excerpts visible",
+      "name": "external requirement sections are absent",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "case opens in evidence workspace",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "both evidence excerpts are visible",
       "pass": true,
       "detail": ""
     },
@@ -29,7 +39,7 @@
       "detail": ""
     },
     {
-      "name": "source provenance dialog opens",
+      "name": "source provenance opens",
       "pass": true,
       "detail": ""
     },
@@ -39,7 +49,7 @@
       "detail": ""
     },
     {
-      "name": "reviewed queue filter works",
+      "name": "reviewed filter works",
       "pass": true,
       "detail": ""
     },
@@ -54,27 +64,7 @@
       "detail": ""
     },
     {
-      "name": "research library includes ten papers",
-      "pass": true,
-      "detail": ""
-    },
-    {
-      "name": "source map includes official and open sources",
-      "pass": true,
-      "detail": ""
-    },
-    {
       "name": "incomplete import is blocked with inline error",
-      "pass": true,
-      "detail": ""
-    },
-    {
-      "name": "global search returns evaluation",
-      "pass": true,
-      "detail": ""
-    },
-    {
-      "name": "accessibility preference applies",
       "pass": true,
       "detail": ""
     },
@@ -89,7 +79,7 @@
       "detail": ""
     },
     {
-      "name": "mobile provenance controls remain operable",
+      "name": "mobile review controls remain operable",
       "pass": true,
       "detail": ""
     }
